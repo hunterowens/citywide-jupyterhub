@@ -1,0 +1,9 @@
+singleuser:
+  defaultUrl: "/lab"
+  image:
+    name: irose/citywide-jupyterlab
+    tag: d45ca3fc915c
+hub:
+  extraConfig:
+    jupyterlab: |
+      c.Spawner.cmd = ['jupyter-labhub']
