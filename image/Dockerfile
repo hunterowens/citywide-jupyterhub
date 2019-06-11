@@ -10,6 +10,7 @@ RUN conda install -c conda-forge \
   cartopy \
   dask \
   distributed \
+  ibis-framework \
   intake \
   intake-parquet \
   matplotlib \
