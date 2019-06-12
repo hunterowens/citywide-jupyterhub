@@ -2,7 +2,7 @@ FROM jupyter/datascience-notebook
 
 # Having a CLI text editor is nice.
 USER root
-RUN apt-get update && apt-get install -y vim graphviz
+RUN apt-get update && apt-get install -y vim graphviz openssh-client
 USER $NB_UID
 
 # Install conda dependencies early, as it takes a long time.
@@ -16,8 +16,10 @@ RUN conda install -c conda-forge \
   matplotlib \
   nodejs \
   numpy \
+  opencv \
   scikit-learn \
   scipy \
+  tensorflow \
   xlrd \
   statsmodels \
   geopandas \
@@ -25,12 +27,12 @@ RUN conda install -c conda-forge \
 
 
 # Rebuilding lab also takes a long time.
-RUN pip install jupyterlab==1.0.0a5
-RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@0.18
-RUN jupyter labextension install --no-build @jupyterlab/toc@1.0.0-pre.2
-RUN jupyter labextension uninstall --no-build @jupyterlab/hub-extension
-RUN jupyter labextension uninstall --no-build jupyterlab_bokeh
-RUN jupyter lab build && jupyter lab clean
+RUN pip install jupyterlab==1.0.0a8
+# RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@0.18
+# RUN jupyter labextension install --no-build @jupyterlab/toc@1.0.0-pre.2
+# RUN jupyter labextension uninstall --no-build @jupyterlab/hub-extension
+# RUN jupyter labextension uninstall --no-build jupyterlab_bokeh
+# RUN jupyter lab build && jupyter lab clean
 
 # These are pretty quick and are python-only, so pip should be okay.
 RUN pip install \
