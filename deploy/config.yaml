@@ -1,8 +1,8 @@
 singleuser:
-  defaultUrl: "/lab"
+  defaultUrl: "/lab?welcome"
   image:
     name: irose/citywide-jupyterlab
-    tag: 99e700edff99
+    tag: 2dd00b9397de
 hub:
   extraConfig:
     jupyterlab: |
