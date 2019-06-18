@@ -1,4 +1,5 @@
 import {
+  IRouter,
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
@@ -19,15 +20,17 @@ const SOURCE = require('../welcome.md').default;
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'cityofla-labextension',
   autoStart: true,
-  requires: [ICommandPalette, IMainMenu, IRenderMimeRegistry],
+  requires: [ICommandPalette, IMainMenu, IRenderMimeRegistry, IRouter],
   activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette,
     menu: IMainMenu,
     rendermime: IRenderMimeRegistry,
+    router: IRouter,
   ) => {
     const { commands, shell } = app;
 
+    // Add a help link for the best practices site.
     menu.helpMenu.addGroup(
       [
         {
@@ -41,6 +44,10 @@ const extension: JupyterFrontEndPlugin<void> = {
       1,
     );
 
+    // Function to create the welcome page.
+    // This is deliberately not restored, as
+    // we only want to show it when directed
+    // by the URL router.
     const createWidget = () => {
       const content = rendermime.createRenderer('text/markdown');
       const model = rendermime.createModel({
@@ -67,9 +74,14 @@ const extension: JupyterFrontEndPlugin<void> = {
       },
     });
 
-    if (palette) {
-      palette.addItem({command, category: 'Help'});
-    }
+    // Add a command palette item for showing the welcome page.
+    palette.addItem({command, category: 'Help'});
+
+    // Allow the welcome page to be triggered via a query parameter.
+    router.register({
+      command,
+      pattern: /(\?welcome|\&welcome)($|&)/,
+    });
   },
 };
 
