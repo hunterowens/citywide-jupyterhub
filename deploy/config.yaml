@@ -1,8 +1,8 @@
 singleuser:
   defaultUrl: "/lab?welcome"
   image:
-    name: irose/citywide-jupyterlab
-    tag: ac07f07c0a53
+    name: 525978535215.dkr.ecr.us-west-1.amazonaws.com/citywide-jupyterlab
+    tag: a873ee48921c
 hub:
   extraConfig:
     jupyterlab: |

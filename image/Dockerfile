@@ -31,8 +31,8 @@ RUN pip install jupyterlab==1.0.0a8
 RUN jupyter labextension install --no-build cityofla-labextension
 # RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@0.18
 # RUN jupyter labextension install --no-build @jupyterlab/toc@1.0.0-pre.2
-RUN jupyter labextension uninstall --no-build @jupyterlab/hub-extension
-RUN jupyter labextension uninstall --no-build jupyterlab_bokeh
+# RUN jupyter labextension uninstall --no-build @jupyterlab/hub-extension
+# RUN jupyter labextension uninstall --no-build jupyterlab_bokeh
 RUN jupyter lab build && jupyter lab clean
 
 # These are pretty quick and are python-only, so pip should be okay.

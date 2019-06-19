@@ -1,6 +1,7 @@
 .PHONY: build publish clean
 
-DOCKERHUB_REPO=irose/citywide-jupyterlab
+DOCKER_REPO=525978535215.dkr.ecr.us-west-1.amazonaws.com/citywide-jupyterlab
+AWS_REGION=us-west-1
 DOCKER := $(if $(DOCKER),$(DOCKER),docker)
 
 buildlog.txt: Dockerfile
@@ -10,8 +11,9 @@ build: buildlog.txt
 
 publish: buildlog.txt
 	$(eval $@_TAG := $(shell cat $< | grep "Successfully built" | awk '{ print $$3 }'))
-	$(DOCKER) tag $($@_TAG) ${DOCKERHUB_REPO}:$($@_TAG)
-	$(DOCKER) push ${DOCKERHUB_REPO}:$($@_TAG)
+	$(DOCKER) tag $($@_TAG) ${DOCKER_REPO}:$($@_TAG)
+	$$(aws ecr get-login --no-include-email --region $(AWS_REGION))
+	$(DOCKER) push ${DOCKER_REPO}:$($@_TAG)
 
 clean:
 	rm buildlog.txt
