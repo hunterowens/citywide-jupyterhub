@@ -59,7 +59,7 @@ run pip install awscli --ignore-installed
 
 
 # Environment related
-RUN conda init bash
-RUN echo "source /etc/bash_completion.d/git-prompt" >> /home/jovyan/.bashrc
-ENV GIT_PS1_SHOWDIRTYSTATE=1
-ENV PS1='\[\033[01;32m\]\u\[\033[01;34m\] \w\[\e[31m\]$(__git_ps1)\[\033[01;34m\] \$\[\033[00m\] '
+USER root
+COPY custom.sh /tmp/custom.sh
+RUN cat /tmp/custom.sh >> /etc/bash.bashrc
+USER $NB_UID
