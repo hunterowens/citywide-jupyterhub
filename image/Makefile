@@ -17,3 +17,7 @@ publish: buildlog.txt
 
 clean:
 	rm buildlog.txt
+
+test: 
+	$(DOCKER) build . 
+	$(DOCKER) run -it latest
