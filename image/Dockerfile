@@ -27,7 +27,7 @@ RUN conda install -c conda-forge \
 
 
 # Rebuilding lab also takes a long time.
-RUN pip install jupyterlab==1.0.0a8
+RUN pip install jupyterlab==1.0.0a9
 RUN jupyter labextension install --no-build cityofla-labextension
 # RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@0.18
 # RUN jupyter labextension install --no-build @jupyterlab/toc@1.0.0-pre.2
