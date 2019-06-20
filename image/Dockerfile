@@ -61,7 +61,7 @@ RUN pip install awscli --ignore-installed
 # Rstudio integration 
 
 # install nbrsessionproxy extension
-RUN conda install -yq -c conda-forge nbrsessionproxy && \
+RUN conda install -yq -c conda-forge && \
     conda clean -tipsy
 
 # install rstudio-server
