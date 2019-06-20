@@ -52,7 +52,8 @@ RUN pip install \
   papermill \
   psycopg2 \
   usaddress \
-  vega-datasets
+  vega-datasets \
+  jupyter-rsession-proxy
 
 # AWS CLI is kind of a pain, as it has some old, hard dependencies.
 RUN pip install awscli --ignore-installed
