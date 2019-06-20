@@ -60,10 +60,6 @@ RUN pip install awscli --ignore-installed
 
 # Rstudio integration 
 
-# install nbrsessionproxy extension
-RUN conda install -yq -c conda-forge && \
-    conda clean -tipsy
-
 # install rstudio-server
 USER root
 RUN apt-get update && \
@@ -74,9 +70,6 @@ RUN apt-get update && \
     apt-get clean
 ENV PATH=$PATH:/usr/lib/rstudio-server/bin
 USER $NB_USER
-
-RUN pip install jupyter-rsession-proxy
-
 
 # Environment related
 USER root
