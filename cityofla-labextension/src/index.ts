@@ -6,6 +6,10 @@ import {
 
 import {ICommandPalette, MainAreaWidget} from '@jupyterlab/apputils';
 
+import {URLExt} from '@jupyterlab/coreutils';
+
+import {ILauncher} from '@jupyterlab/launcher';
+
 import {IMainMenu} from '@jupyterlab/mainmenu';
 
 import {IRenderMimeRegistry} from '@jupyterlab/rendermime';
@@ -20,13 +24,22 @@ const SOURCE = require('../welcome.md').default;
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'cityofla-labextension',
   autoStart: true,
-  requires: [ICommandPalette, IMainMenu, IRenderMimeRegistry, IRouter],
+  requires: [
+    ICommandPalette,
+    ILauncher,
+    IMainMenu,
+    IRenderMimeRegistry,
+    IRouter,
+    JupyterFrontEnd.IPaths
+  ],
   activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette,
+    launcher: ILauncher,
     menu: IMainMenu,
     rendermime: IRenderMimeRegistry,
     router: IRouter,
+    paths: JupyterFrontEnd.IPaths
   ) => {
     const { commands, shell } = app;
 
@@ -48,7 +61,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     // This is deliberately not restored, as
     // we only want to show it when directed
     // by the URL router.
-    const createWidget = () => {
+    const createWelcomeWidget = () => {
       const content = rendermime.createRenderer('text/markdown');
       const model = rendermime.createModel({
         data: {'text/markdown': SOURCE},
@@ -63,12 +76,12 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     let widget: MainAreaWidget;
 
-    const command = 'cityoflosangeles:welcome';
+    let command = 'cityoflosangeles:welcome';
     commands.addCommand(command, {
       label: 'Open Los Angeles Welcome Page',
       execute: () => {
         if (!widget || widget.isDisposed) {
-          widget = createWidget();
+          widget = createWelcomeWidget();
         }
         shell.add(widget, 'main');
       },
@@ -82,6 +95,23 @@ const extension: JupyterFrontEndPlugin<void> = {
       command,
       pattern: /(\?welcome|\&welcome)($|&)/,
     });
+
+    // Add a command to launch RStudio
+    command = 'cityoflosangeles:launch-rstudio';
+    commands.addCommand(command, {
+      label: args => args['isLauncher'] ? 'RStudio' : 'Launch RStudio',
+      iconClass: args => args['isLauncher'] ? 'cola-RStudio-icon': '',
+      execute: () => {
+        const url = URLExt.join(paths.urls.base, 'rstudio');
+        window.open(url, '_blank');
+      }
+    });
+    launcher.add({
+      command,
+      args: { isLauncher: true },
+      category: 'Other'
+    });
+    palette.addItem({ command, category: 'RStudio' });
   },
 };
 
