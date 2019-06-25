@@ -1,8 +1,17 @@
 FROM jupyter/datascience-notebook
 
-# Having a CLI text editor is nice.
 USER root
+# Having a CLI text editor is nice.
 RUN apt-get update && apt-get install -y vim graphviz openssh-client
+
+# Rstudio integration
+RUN apt-get update && \
+    curl --silent -L --fail https://download2.rstudio.org/rstudio-server-1.1.419-amd64.deb > /tmp/rstudio.deb && \
+    echo '24cd11f0405d8372b4168fc9956e0386 /tmp/rstudio.deb' | md5sum -c - && \
+    apt-get install -y /tmp/rstudio.deb && \
+    rm /tmp/rstudio.deb && \
+    apt-get clean
+ENV PATH=$PATH:/usr/lib/rstudio-server/bin
 USER $NB_UID
 
 # Install conda dependencies early, as it takes a long time.
@@ -59,20 +68,6 @@ RUN pip install \
 
 # AWS CLI is kind of a pain, as it has some old, hard dependencies.
 RUN pip install awscli --ignore-installed
-
-
-# Rstudio integration 
-
-# install rstudio-server
-USER root
-RUN apt-get update && \
-    curl --silent -L --fail https://download2.rstudio.org/rstudio-server-1.1.419-amd64.deb > /tmp/rstudio.deb && \
-    echo '24cd11f0405d8372b4168fc9956e0386 /tmp/rstudio.deb' | md5sum -c - && \
-    apt-get install -y /tmp/rstudio.deb && \
-    rm /tmp/rstudio.deb && \
-    apt-get clean
-ENV PATH=$PATH:/usr/lib/rstudio-server/bin
-USER $NB_USER
 
 # Environment related
 USER root
