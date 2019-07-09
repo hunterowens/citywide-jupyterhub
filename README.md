@@ -29,6 +29,8 @@ env:
 
 ```
 
+* For the secrets file, we use git crypt. Make sure you have the `citywide-jhub.key` file and then run `git-crypt unlock ~/path/to/key` in the base of the repo. 
+
 * From there, you should be able to run something like `kubectl get svc`. 
 
 * Finally, you'll need Helm, the package manager for Kubernetes. To install helm, follow the steps from [Zero to JupyterHub](https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-helm.html). 
