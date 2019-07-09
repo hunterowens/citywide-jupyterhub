@@ -36,11 +36,11 @@ RUN conda install -c conda-forge \
 
 
 # Rebuilding lab also takes a long time.
-RUN pip install jupyterlab==1.0.0rc0
-RUN jupyter labextension install --no-build cityofla-labextension@0.3.0
-RUN jupyter labextension install --no-build @jupyterlab/github@1.0.0-rc.0
-RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@0.18.1
-RUN jupyter labextension install --no-build @jupyterlab/toc@1.0.0-rc.0
+RUN pip install -U jupyterlab
+RUN jupyter labextension install --no-build cityofla-labextension@0.4.1
+RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
+RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
+RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
 # RUN jupyter labextension uninstall --no-build @jupyterlab/hub-extension
 RUN jupyter labextension uninstall --no-build jupyterlab_bokeh
 RUN jupyter lab build && jupyter lab clean
@@ -57,7 +57,6 @@ RUN pip install \
   intake_dcat>=0.2 \
   ipywidgets \
   ipyleaflet \
-  jupyterlab_github \
   mapboxgl \
   openpyxl \
   papermill \
