@@ -41,13 +41,15 @@ RUN jupyter labextension install --no-build cityofla-labextension@0.4.1
 RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
 RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
 RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
+RUN jupyter labextension install --no-build dask-labextension@1.0
+RUN jupyter labextension install --no-build jupyter-leaflet@0.11
 # RUN jupyter labextension uninstall --no-build @jupyterlab/hub-extension
 RUN jupyter labextension uninstall --no-build jupyterlab_bokeh
-RUN jupyter lab build --dev-build=False && jupyter lab clean
 
 # These are pretty quick and are python-only, so pip should be okay.
 RUN pip install \
   altair \
+  dask_labextension>=1.0 \
   descartes \
   folium \
   geoalchemy2 \
@@ -55,15 +57,18 @@ RUN pip install \
   geopy \
   intake_geopandas>=0.2.2 \
   intake_dcat>=0.2 \
-  ipywidgets \
   ipyleaflet \
+  jupyter-rsession-proxy \
+  jupyterlab_sql>=0.3 \
   mapboxgl \
   openpyxl \
   papermill \
   psycopg2 \
   usaddress \
-  vega-datasets \
-  jupyter-rsession-proxy
+  vega-datasets
+
+RUN jupyter serverextension enable jupyterlab_sql
+RUN jupyter lab build --dev-build=False && jupyter lab clean
 
 # AWS CLI is kind of a pain, as it has some old, hard dependencies.
 RUN pip install awscli --ignore-installed
