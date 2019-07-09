@@ -67,9 +67,8 @@ const extension: JupyterFrontEndPlugin<void> = {
         data: {'text/markdown': SOURCE},
       });
       void content.renderModel(model);
-      content.addClass('jp-FAQ-content');
+      content.addClass('cola-Welcome');
       const widget = new MainAreaWidget({content});
-      widget.addClass('jp-FAQ');
       widget.title.label = 'Welcome';
       return widget;
     };
