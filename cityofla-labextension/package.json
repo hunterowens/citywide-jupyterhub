@@ -1,6 +1,6 @@
 {
   "name": "cityofla-labextension",
-  "version": "0.2.0",
+  "version": "0.4.1",
   "description": "A JupyterLab extension for City of Los Angeles customizations",
   "keywords": [
     "jupyter",
@@ -30,12 +30,12 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^1.0.0-alpha.12",
-    "@jupyterlab/apputils": "^1.0.0-alpha.12",
-    "@jupyterlab/coreutils": "^3.0.0-alpha.12",
-    "@jupyterlab/launcher": "^1.0.0-alpha.12",
-    "@jupyterlab/mainmenu": "^1.0.0-alpha.12",
-    "@jupyterlab/rendermime": "^1.0.0-alpha.12"
+    "@jupyterlab/application": "^1.0.0",
+    "@jupyterlab/apputils": "^1.0.0",
+    "@jupyterlab/coreutils": "^3.0.0",
+    "@jupyterlab/launcher": "^1.0.0",
+    "@jupyterlab/mainmenu": "^1.0.0",
+    "@jupyterlab/rendermime": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^12.0.8",

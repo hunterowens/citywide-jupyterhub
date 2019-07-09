@@ -4,3 +4,8 @@
   background-size: 100%;
   background-position: center;
 }
+
+.cola-Welcome {
+  overflow-y: auto;
+  padding: 32px;
+}
