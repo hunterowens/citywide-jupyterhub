@@ -26,6 +26,8 @@ RUN conda install -c conda-forge \
   nodejs \
   numpy \
   opencv \
+  r-rgdal \
+  r-units \
   scikit-learn \
   scipy \
   tensorflow \
@@ -34,19 +36,7 @@ RUN conda install -c conda-forge \
   geopandas \
   s3fs
 
-
-# Rebuilding lab also takes a long time.
-RUN pip install -U jupyterlab
-RUN jupyter labextension install --no-build cityofla-labextension@0.4.1
-RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
-RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
-RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
-RUN jupyter labextension install --no-build dask-labextension@1.0
-RUN jupyter labextension install --no-build jupyter-leaflet@0.11
-# RUN jupyter labextension uninstall --no-build @jupyterlab/hub-extension
-RUN jupyter labextension uninstall --no-build jupyterlab_bokeh
-
-# These are pretty quick and are python-only, so pip should be okay.
+# Install some python-only packages using pip
 RUN pip install \
   altair \
   dask_labextension>=1.0 \
@@ -67,11 +57,26 @@ RUN pip install \
   usaddress \
   vega-datasets
 
-RUN jupyter serverextension enable jupyterlab_sql
-RUN jupyter lab build --dev-build=False && jupyter lab clean
+# Install some stuff from CRAN that is not available on conda-forge.
+RUN R -e "install.packages('tidycensus', dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
 
 # AWS CLI is kind of a pain, as it has some old, hard dependencies.
 RUN pip install awscli --ignore-installed
+
+# Rebuilding lab also takes a long time.
+RUN pip install -U jupyterlab
+RUN jupyter labextension install --no-build cityofla-labextension@0.4.1
+RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
+RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
+RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
+RUN jupyter labextension install --no-build dask-labextension@1.0
+RUN jupyter labextension install --no-build jupyter-leaflet@0.11
+# RUN jupyter labextension uninstall --no-build @jupyterlab/hub-extension
+RUN jupyter labextension uninstall --no-build jupyterlab_bokeh
+
+# Build JupyterLab after installing jupyterlab_sql, since it also installs an extension behind the scenes.
+RUN jupyter serverextension enable jupyterlab_sql
+RUN jupyter lab build --dev-build=False && jupyter lab clean
 
 # Environment related
 USER root
