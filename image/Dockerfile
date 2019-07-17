@@ -1,4 +1,4 @@
-FROM jupyter/datascience-notebook
+FROM jupyter/datascience-notebook:7a3e968dd212
 
 USER root
 # Having a CLI text editor is nice.
@@ -36,49 +36,56 @@ RUN conda install -c conda-forge \
   geopandas \
   s3fs
 
+# Install some stuff from CRAN that is not available on conda-forge.
+RUN R -e "install.packages('tidycensus', dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
+
+# AWS CLI is a pain, as it pins an old version of pyyaml
+RUN pip install awscli --ignore-installed
+
+# Rebuilding lab also takes a long time.
+RUN pip install -U jupyterlab
+RUN jupyter labextension install --no-build cityofla-labextension@0.4.2
+RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
+RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
+RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
+RUN jupyter labextension install --no-build dask-labextension@1.0
+RUN jupyter labextension install --no-build jupyter-leaflet@0.11
+RUN jupyter labextension install --no-build plotlywidget@1.0
+RUN jupyter labextension install --no-build jupyterlab-plotly@1.0
+
+# jupyterlab-sql installs a labextension behind the scenes.
+RUN pip install \
+  dask_labextension>=1.0 \
+  jupyter-rsession-proxy \
+  jupyterlab_sql>=0.3
+
+# Enable the serverextensions that do not use the conf.d approach
+RUN jupyter serverextension enable jupyterlab_sql
+
+# Build JupyterLab.
+RUN jupyter lab build --dev-build=False && jupyter lab clean
+
 # Install some python-only packages using pip
 RUN pip install \
   altair \
-  dask_labextension>=1.0 \
   descartes \
   folium \
   geoalchemy2 \
   geocoder \
   geopy \
   intake_geopandas>=0.2.2 \
-  intake_dcat>=0.2 \
+  intake_dcat>=0.2.3 \
   ipyleaflet \
-  jupyter-rsession-proxy \
-  jupyterlab_sql>=0.3 \
   mapboxgl \
   openpyxl \
   papermill \
+  plotly>=4.0 \
+  plotly-geo>=1.0 \
   psycopg2 \
   usaddress \
   vega-datasets
 
-# Install some stuff from CRAN that is not available on conda-forge.
-RUN R -e "install.packages('tidycensus', dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
-
-# AWS CLI is kind of a pain, as it has some old, hard dependencies.
-RUN pip install awscli --ignore-installed
-
-# Rebuilding lab also takes a long time.
-RUN pip install -U jupyterlab
-RUN jupyter labextension install --no-build cityofla-labextension@0.4.1
-RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
-RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
-RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
-RUN jupyter labextension install --no-build dask-labextension@1.0
-RUN jupyter labextension install --no-build jupyter-leaflet@0.11
-# RUN jupyter labextension uninstall --no-build @jupyterlab/hub-extension
-RUN jupyter labextension uninstall --no-build jupyterlab_bokeh
-
-# Build JupyterLab after installing jupyterlab_sql, since it also installs an extension behind the scenes.
-RUN jupyter serverextension enable jupyterlab_sql
-RUN jupyter lab build --dev-build=False && jupyter lab clean
-
-# Environment related
+# Environment-related
 USER root
 COPY custom.sh /tmp/custom.sh
 RUN cat /tmp/custom.sh >> /etc/bash.bashrc
