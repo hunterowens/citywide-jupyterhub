@@ -52,7 +52,6 @@ RUN pip install \
   intake_dcat>=0.2 \
   ipyleaflet \
   jupyter-rsession-proxy \
-  jupyterlab_sql>=0.3 \
   mapboxgl \
   openpyxl \
   papermill \
@@ -75,12 +74,14 @@ RUN jupyter labextension install --no-build dask-labextension@1.0
 RUN jupyter labextension install --no-build jupyter-leaflet@0.11
 RUN jupyter labextension install --no-build plotlywidget@1.0
 RUN jupyter labextension install --no-build jupyterlab-plotly@1.0
-
-# Build JupyterLab after installing jupyterlab_sql, since it also installs an extension behind the scenes.
+# jupyterlab-sql installs a labextension behind the scenes.
+RUN pip install jupyterlab_sql>=0.3
 RUN jupyter serverextension enable jupyterlab_sql
+
+# Build JupyterLab.
 RUN jupyter lab build --dev-build=False && jupyter lab clean
 
-# Environment related
+# Environment-related
 USER root
 COPY custom.sh /tmp/custom.sh
 RUN cat /tmp/custom.sh >> /etc/bash.bashrc
