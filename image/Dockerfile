@@ -1,4 +1,4 @@
-FROM jupyter/datascience-notebook
+FROM jupyter/datascience-notebook:7a3e968dd212
 
 USER root
 # Having a CLI text editor is nice.
