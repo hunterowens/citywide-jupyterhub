@@ -57,6 +57,7 @@ RUN pip install \
   openpyxl \
   papermill \
   plotly>=4.0 \
+  plotly-geo>=1.0 \
   psycopg2 \
   usaddress \
   vega-datasets
