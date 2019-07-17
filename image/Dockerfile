@@ -56,6 +56,7 @@ RUN pip install \
   mapboxgl \
   openpyxl \
   papermill \
+  plotly>=4.0 \
   psycopg2 \
   usaddress \
   vega-datasets
@@ -71,6 +72,8 @@ RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
 RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
 RUN jupyter labextension install --no-build dask-labextension@1.0
 RUN jupyter labextension install --no-build jupyter-leaflet@0.11
+RUN jupyter labextension install --no-build plotlywidget@1.0
+RUN jupyter labextension install --no-build jupyterlab-plotly@1.0
 
 # Build JupyterLab after installing jupyterlab_sql, since it also installs an extension behind the scenes.
 RUN jupyter serverextension enable jupyterlab_sql
