@@ -36,6 +36,9 @@ RUN conda install -c conda-forge \
   geopandas \
   s3fs
 
+# Install some stuff from CRAN that is not available on conda-forge.
+RUN R -e "install.packages('tidycensus', dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
+
 # Install some python-only packages using pip
 RUN pip install \
   altair \
