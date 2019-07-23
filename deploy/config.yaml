@@ -3,6 +3,10 @@ singleuser:
   image:
     name: 525978535215.dkr.ecr.us-west-1.amazonaws.com/citywide-jupyterlab
     tag: a1c9236143d0
+  lifecycleHooks:
+    postStart:
+      exec:
+        command: ["bash", "-c", "[[ ! -z \"${GITHUB_EMAIL}\" ]] && git config --global user.email \"${GITHUB_EMAIL}\"; [[ ! -z \"${GITHUB_USER_NAME}\" ]] && git config --global user.name \"${GITHUB_USER_NAME}\""]
 hub:
   extraConfig:
     jupyterlab: |
