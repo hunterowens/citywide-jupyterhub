@@ -2,7 +2,7 @@ singleuser:
   defaultUrl: "/lab?welcome"
   image:
     name: 525978535215.dkr.ecr.us-west-1.amazonaws.com/citywide-jupyterlab
-    tag: 29bc8bda9d89
+    tag: a1c9236143d0
 hub:
   extraConfig:
     jupyterlab: |
@@ -24,9 +24,10 @@ hub:
             spawner.log.warning("No auth state for %s", spawner.user)
             return
 
-        spawner.environment["GITHUB_ACCESS_TOKEN"] = auth_state["access_token"]
+        token = auth_state["access_token"]
         spawner.environment["GITHUB_USER"] = auth_state["github_user"]["login"]
         spawner.environment["GITHUB_EMAIL"] = auth_state["github_user"]["email"]
         spawner.environment["GITHUB_USER_NAME"] = auth_state["github_user"]["name"]
+        spawner.args = spawner.args + ["--GitHubConfig.access_token='%s'" % token]
 
       c.Spawner.pre_spawn_hook = add_auth_env
