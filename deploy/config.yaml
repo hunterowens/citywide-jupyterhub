@@ -2,7 +2,7 @@ singleuser:
   defaultUrl: "/lab?welcome"
   image:
     name: 525978535215.dkr.ecr.us-west-1.amazonaws.com/citywide-jupyterlab
-    tag: 69c45552b76e
+    tag: 7b5551a1ce68
   lifecycleHooks:
     postStart:
       exec:

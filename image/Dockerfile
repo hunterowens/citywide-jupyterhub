@@ -67,8 +67,8 @@ RUN pip install \
   jupyterlab_sql>=0.3
 
 # Enable the serverextensions that do not use the conf.d approach
-RUN jupyter serverextension enable jupyterlab_sql
-RUN jupyter serverextension enable jupyterlab_git
+RUN jupyter serverextension enable --sys-prefix jupyterlab_sql
+RUN jupyter serverextension enable --sys-prefix jupyterlab_git
 
 # Build JupyterLab.
 RUN jupyter lab build --dev-build=False && jupyter lab clean
