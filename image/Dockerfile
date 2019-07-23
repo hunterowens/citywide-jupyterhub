@@ -47,6 +47,7 @@ RUN pip install -U jupyterlab
 RUN jupyter labextension install --no-build cityofla-labextension@0.4.2
 RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
 RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
+RUN jupyter labextension install --no-build @jupyterlab/git@0.7
 RUN jupyter labextension install --no-build @jupyterlab/github@1.0
 RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
 RUN jupyter labextension install --no-build dask-labextension@1.0
@@ -61,11 +62,13 @@ RUN pip install \
   dask_labextension>=1.0 \
   jupyter-rsession-proxy \
   jupyterlab-dash==0.1.0a3 \
+  jupyterlab_git>=0.6.1 \
   jupyterlab_github>=1.0 \
   jupyterlab_sql>=0.3
 
 # Enable the serverextensions that do not use the conf.d approach
 RUN jupyter serverextension enable jupyterlab_sql
+RUN jupyter serverextension enable jupyterlab_git
 
 # Build JupyterLab.
 RUN jupyter lab build --dev-build=False && jupyter lab clean
