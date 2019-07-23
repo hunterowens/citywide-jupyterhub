@@ -6,7 +6,12 @@ singleuser:
   lifecycleHooks:
     postStart:
       exec:
-        command: ["bash", "-c", "[[ ! -z \"${GITHUB_EMAIL}\" ]] && git config --global user.email \"${GITHUB_EMAIL}\"; [[ ! -z \"${GITHUB_USER_NAME}\" ]] && git config --global user.name \"${GITHUB_USER_NAME}\""]
+        command:
+          - "bash"
+          - "-c"
+          - >-
+            [[ ! -z "${GITHUB_EMAIL}" ]] && git config --global user.email "${GITHUB_EMAIL}";
+            [[ ! -z "${GITHUB_USER_NAME}" ]] && git config --global user.name "${GITHUB_USER_NAME}"
 hub:
   extraConfig:
     jupyterlab: |
