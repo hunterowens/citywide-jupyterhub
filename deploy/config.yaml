@@ -2,8 +2,41 @@ singleuser:
   defaultUrl: "/lab?welcome"
   image:
     name: 525978535215.dkr.ecr.us-west-1.amazonaws.com/citywide-jupyterlab
-    tag: 29bc8bda9d89
+    tag: 69c45552b76e
+  lifecycleHooks:
+    postStart:
+      exec:
+        command:
+          - "bash"
+          - "-c"
+          - >-
+            [[ ! -z "${GITHUB_EMAIL}" ]] && git config --global user.email "${GITHUB_EMAIL}";
+            [[ ! -z "${GITHUB_USER_NAME}" ]] && git config --global user.name "${GITHUB_USER_NAME}"
 hub:
   extraConfig:
     jupyterlab: |
-      c.Spawner.cmd = ['jupyter-labhub']
+      c.Spawner.cmd = ["jupyter-labhub"]
+
+      async def add_auth_env(spawner):
+        """
+        We set user's id, login and access token on single user image to
+        enable repository integration for JupyterHub.
+        See:
+          https://gitlab.com/gitlab-org/gitlab-ce/issues/47138#note_154294790
+          https://gitlab.com/gitlab-org/gitlab-ce/blob/master/vendor/jupyter/values.yaml
+          https://discourse.jupyter.org/t/gitlab-oauthenticator-set-single-user-image-config/590
+
+        """
+        auth_state = await spawner.user.get_auth_state()
+
+        if not auth_state:
+            spawner.log.warning("No auth state for %s", spawner.user)
+            return
+
+        token = auth_state["access_token"]
+        spawner.environment["GITHUB_USER"] = auth_state["github_user"]["login"]
+        spawner.environment["GITHUB_EMAIL"] = auth_state["github_user"]["email"]
+        spawner.environment["GITHUB_USER_NAME"] = auth_state["github_user"]["name"]
+        spawner.args = spawner.args + ["--GitHubConfig.access_token='%s'" % token]
+
+      c.Spawner.pre_spawn_hook = add_auth_env
