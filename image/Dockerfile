@@ -52,11 +52,13 @@ RUN jupyter labextension install --no-build dask-labextension@1.0
 RUN jupyter labextension install --no-build jupyter-leaflet@0.11
 RUN jupyter labextension install --no-build plotlywidget@1.0
 RUN jupyter labextension install --no-build jupyterlab-plotly@1.0
+RUN jupyter labextension install --no-build jupyterlab-dash@0.1.0-alpha.3
 
 # jupyterlab-sql installs a labextension behind the scenes.
 RUN pip install \
   dask_labextension>=1.0 \
   jupyter-rsession-proxy \
+  jupyterlab-dash==0.1.0a3 \
   jupyterlab_sql>=0.3
 
 # Enable the serverextensions that do not use the conf.d approach
