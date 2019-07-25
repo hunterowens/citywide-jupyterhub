@@ -17,8 +17,9 @@ USER $NB_UID
 # Install conda dependencies early, as it takes a long time.
 RUN conda install -c conda-forge \
   cartopy \
-  dask \
+  "dask>=1.2" \
   distributed \
+  "gdal=2.4.1" \
   ibis-framework \
   intake \
   intake-parquet \
