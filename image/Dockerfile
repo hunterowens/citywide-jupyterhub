@@ -49,7 +49,7 @@ RUN jupyter labextension install --no-build cityofla-labextension@0.4.2
 RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
 RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
 RUN jupyter labextension install --no-build @jupyterlab/git@0.7
-RUN jupyter labextension install --no-build @jupyterlab/github@1.0
+RUN jupyter labextension install --no-build @jupyterlab/github@1.0.1
 RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
 RUN jupyter labextension install --no-build dask-labextension@1.0
 RUN jupyter labextension install --no-build jupyter-leaflet@0.11
@@ -57,6 +57,7 @@ RUN jupyter labextension install --no-build plotlywidget@1.0
 RUN jupyter labextension install --no-build jupyterlab-plotly@1.0
 RUN jupyter labextension install --no-build jupyterlab-dash@0.1.0-alpha.3
 RUN jupyter labextension install --no-build jupyterlab-spreadsheet@0.1
+RUN jupyter labextension install --no-build nbdime-jupyterlab@1.0
 
 # jupyterlab-sql installs a labextension behind the scenes.
 RUN pip install \
@@ -65,7 +66,8 @@ RUN pip install \
   jupyterlab-dash==0.1.0a3 \
   jupyterlab_git>=0.6.1 \
   jupyterlab_github>=1.0 \
-  jupyterlab_sql>=0.3
+  jupyterlab_sql>=0.3 \
+  nbdime
 
 # Enable the serverextensions that do not use the conf.d approach
 RUN jupyter serverextension enable --sys-prefix jupyterlab_sql
@@ -84,6 +86,7 @@ RUN pip install \
   geopy \
   intake_geopandas>=0.2.2 \
   intake_dcat>=0.2.3 \
+  git+https://github.com/intake/intake-sql.git@master#egg=intake_sql \
   ipyleaflet \
   mapboxgl \
   openpyxl \
