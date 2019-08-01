@@ -3,12 +3,6 @@ singleuser:
   image:
     name: 525978535215.dkr.ecr.us-west-1.amazonaws.com/citywide-jupyterlab
     tag: 227b9101e0c7
-proxy:
-  https:
-    hosts:
-      - jupyterhub.itacloudops.org
-    letsencrypt:
-      contactEmail: hunter.owens@lacity.org
 hub:
   extraConfig:
     jupyterlab: |

@@ -1,0 +1,6 @@
+proxy:
+  https:
+    hosts:
+      - jupyterhub.itacloudops.org
+    letsencrypt:
+      contactEmail: hunter.owens@lacity.org
