@@ -106,8 +106,14 @@ Following the instructions for these project templates can be a good way to get 
 
 **Python**: https://github.com/CityOfLosAngeles/cookiecutter-data-science
 
-**R**: http://projecttemplate.net/index.html
+**R**: https://github.com/CityOfLosAngeles/cookiecutter-r-data-analysis
 
+To use the templates and start a new project, open a new terminal and type: 
+
+* Python: `cookiecutter gh:CityOfLosAngeles/cookiecutter-data-science` 
+* R: `cookiecutter gh:CityOfLosAngeles/cookiecutter-r-data-analysis` 
+
+and complete the config info. 
 ### Where to go for help
 
 If you run into troubles, please reach out for help!
