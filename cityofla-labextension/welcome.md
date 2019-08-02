@@ -25,8 +25,36 @@ which you can use to execute code, and then inspect the results of that executio
 
 You can run a cell by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.
 Often you will want to restart the kernel to get a fresh slate.
-You can do that, as well as other kernel-related operations using the `Kernel` menu.
+You can do that, as well as other kernel-related operations using the Kernel menu.
 
+### Running terminals
+
+You may want to perform operations using a Unix terminal,
+such as batch moving of files or git commands.
+You can create a `bash` terminal from the Launcher,
+or by going to `File > New > Terminal`.
+
+### Running consoles
+
+Consoles are a more ephemeral version of notebooks.
+They are connected to kernels, and you can send code to them and receive the outputs
+in the same way that you do with a notebook.
+However, they are not saved to disk as a file.
+You can create a new console from the Launcher,
+or by going to `File > New > Console`.
+You can also create a console attached to a notebook by right-clicking on
+a notebook, and selecting "New Console For Notebook".
+
+### Editing markdown
+
+Markdown is a lightweight markup language for writing formatted prose,
+and is intended to be an easier-to-author version of HTML.
+Notebooks use markdown for writing prose, and a lot of code documentation
+(including this very document) is written using markdown.
+
+For a guide to markdown, go to `Help > Markdown Reference`.
+When editing a markdown file, you can right-click on it and select "Show Markdown Preview"
+to see a rendered version of the file.
 
 ### Uploading and downloading files
 
@@ -56,3 +84,34 @@ opening a terminal, and entering
 ```bash
 git clone <your-repository-url>
 ```
+
+Alternatively, you can clone a repository using the "Clone" button at the top of the file browser,
+and pasting the URL to the repository.
+
+The first time you log in to this platform, you will need to configure git to let it know who you are.
+This will allow it to attach your information to code commits you make.
+You can configure git by running the following in a terminal:
+```bash
+git config --global user.name "FIRST_NAME LAST_NAME"
+git config --global user.email "MY_NAME@example.com"
+```
+
+More information on how to use git can be found in this
+[Software Carpentry tutorial](https://swcarpentry.github.io/git-novice/).
+
+### Setting up a new project
+
+It is often useful to start a new data analysis project with a reasonable directory structure already set up.
+Following the instructions for these project templates can be a good way to get your project going:
+
+**Python**: https://github.com/CityOfLosAngeles/cookiecutter-data-science
+
+**R**: http://projecttemplate.net/index.html
+
+### Where to go for help
+
+If you run into troubles, please reach out for help!
+For recommendations about how to structure projects for reproducibility and robustness,
+see the [City of Los Angeles Best Practices](https://CityOfLosAngeles.github.io/best-practices).
+To report bugs or feature requests,
+[file an issue on GitHub](https://github.com/CityOfLosAngeles/citywide-jupyterhub).
