@@ -21,25 +21,25 @@ ENV TAR="/bin/tar"
 # Install conda dependencies early, as it takes a long time.
 RUN conda install -c conda-forge \
   cartopy \
-  "dask>=1.2" \
+  "dask=2.1.0" \
   distributed \
   "gdal=2.4.1" \
+  geopandas \
   ibis-framework \
-  intake \
+  "intake=0.5.1" \
   intake-parquet \
   matplotlib \
   nodejs \
   numpy \
   opencv \
   r-rgdal \
+  s3fs \
   r-units \
   scikit-learn \
   scipy \
-  tensorflow \
-  xlrd \
   statsmodels \
-  geopandas \
-  s3fs
+  tensorflow \
+  xlrd
 
 # Install some stuff from CRAN + Github that is not available on conda-forge.
 RUN R -e "install.packages(c('tidycensus', 'devtools'), dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
@@ -50,7 +50,7 @@ RUN pip install awscli --ignore-installed
 
 # Rebuilding lab also takes a long time.
 RUN pip install -U jupyterlab
-RUN jupyter labextension install --no-build cityofla-labextension@0.4.2
+RUN jupyter labextension install --no-build cityofla-labextension@0.4.3
 RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
 RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
 RUN jupyter labextension install --no-build @jupyterlab/git@0.7
@@ -101,7 +101,8 @@ RUN pip install \
   plotly-geo>=1.0 \
   psycopg2 \
   usaddress \
-  vega-datasets
+  vega-datasets \
+  xlsxwriter
 
 # Environment-related
 USER root

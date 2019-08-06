@@ -114,6 +114,7 @@ To use the templates and start a new project, open a new terminal and type:
 * R: `cookiecutter gh:CityOfLosAngeles/cookiecutter-r-data-analysis` 
 
 and complete the config info. 
+
 ### Where to go for help
 
 If you run into troubles, please reach out for help!
