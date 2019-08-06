@@ -14,6 +14,10 @@ RUN apt-get update && \
 ENV PATH=$PATH:/usr/lib/rstudio-server/bin
 USER $NB_UID
 
+# env tar for r urbanmapper / github install r packages 
+
+ENV TAR="/bin/tar"
+
 # Install conda dependencies early, as it takes a long time.
 RUN conda install -c conda-forge \
   cartopy \
@@ -37,8 +41,9 @@ RUN conda install -c conda-forge \
   geopandas \
   s3fs
 
-# Install some stuff from CRAN that is not available on conda-forge.
-RUN R -e "install.packages('tidycensus', dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
+# Install some stuff from CRAN + Github that is not available on conda-forge.
+RUN R -e "install.packages(c('tidycensus', 'devtools'), dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
+RUN R -e "devtools::install_github('UrbanInstitute/urbnmapr')"
 
 # AWS CLI is a pain, as it pins an old version of pyyaml
 RUN pip install awscli --ignore-installed
