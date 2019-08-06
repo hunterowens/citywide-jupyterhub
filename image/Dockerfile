@@ -79,6 +79,7 @@ RUN jupyter lab build --dev-build=False && jupyter lab clean
 # Install some python-only packages using pip
 RUN pip install \
   altair \
+  cookiecutter \ 
   descartes \
   folium \
   geoalchemy2 \
