@@ -109,6 +109,12 @@ RUN pip install \
   vega-datasets \
   xlsxwriter
 
+# Jupyter/IPython config
+USER root
+RUN mkdir -p /etc/ipython
+COPY ipython_config.py /etc/ipython/
+USER $NB_UID
+
 # Environment-related
 USER root
 COPY custom.sh /tmp/custom.sh
