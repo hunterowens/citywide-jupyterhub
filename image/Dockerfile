@@ -29,6 +29,7 @@ RUN conda install -c conda-forge \
   "intake=0.5.1" \
   intake-parquet \
   matplotlib \
+  nltk \
   nodejs \
   numpy \
   opencv \
@@ -37,6 +38,7 @@ RUN conda install -c conda-forge \
   r-units \
   scikit-learn \
   scipy \
+  spacy \
   statsmodels \
   tensorflow \
   xlrd
