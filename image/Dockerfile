@@ -25,7 +25,7 @@ RUN conda install -c conda-forge \
   distributed \
   "gdal=2.4.1" \
   geopandas \
-  ibis-framework \
+  "ibis-framework>=1.2.0" \
   "intake=0.5.1" \
   intake-parquet \
   matplotlib \
@@ -33,9 +33,12 @@ RUN conda install -c conda-forge \
   nodejs \
   numpy \
   opencv \
+  osmnx \
+  r-catools \
   r-rgdal \
-  s3fs \
+  r-rmysql \
   r-units \
+  s3fs \
   scikit-learn \
   scipy \
   spacy \
