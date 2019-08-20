@@ -34,6 +34,7 @@ RUN conda install -c conda-forge \
   numpy \
   opencv \
   osmnx \
+  pymc3 \
   r-catools \
   r-rgdal \
   r-rmysql \
