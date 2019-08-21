@@ -25,7 +25,7 @@ RUN conda install -c conda-forge \
   distributed \
   "gdal=2.4.1" \
   geopandas \
-  ibis-framework \
+  "ibis-framework>=1.2.0" \
   "intake=0.5.1" \
   intake-parquet \
   matplotlib \
@@ -33,9 +33,13 @@ RUN conda install -c conda-forge \
   nodejs \
   numpy \
   opencv \
+  osmnx \
+  pymc3 \
+  r-catools \
   r-rgdal \
-  s3fs \
+  r-rmysql \
   r-units \
+  s3fs \
   scikit-learn \
   scipy \
   spacy \
@@ -105,6 +109,12 @@ RUN pip install \
   usaddress \
   vega-datasets \
   xlsxwriter
+
+# Jupyter/IPython config
+USER root
+RUN mkdir -p /etc/ipython
+COPY ipython_config.py /etc/ipython/
+USER $NB_UID
 
 # Environment-related
 USER root
