@@ -55,7 +55,7 @@ RUN R -e "devtools::install_github('UrbanInstitute/urbnmapr')"
 RUN pip install awscli --ignore-installed
 
 # Rebuilding lab also takes a long time.
-RUN pip install -U jupyterlab
+RUN pip install jupyterlab==1.0.9
 RUN jupyter labextension install --no-build cityofla-labextension@0.4.3
 RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
 RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
@@ -121,3 +121,7 @@ USER root
 COPY custom.sh /tmp/custom.sh
 RUN cat /tmp/custom.sh >> /etc/bash.bashrc
 USER $NB_UID
+
+# Use bash login shell for entrypoint in order
+# to automatically source user's .bashrc
+ENTRYPOINT ["bash", "-l", "--"]
