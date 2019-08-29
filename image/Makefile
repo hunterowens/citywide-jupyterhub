@@ -1,7 +1,8 @@
 .PHONY: build publish clean
 
-DOCKER_REPO=525978535215.dkr.ecr.us-west-1.amazonaws.com/citywide-jupyterlab
+ECR_REPO=525978535215.dkr.ecr.us-west-1.amazonaws.com/citywide-jupyterlab
 AWS_REGION=us-west-1
+GCR_REPO=gcr.io/ita-kubernetes-poc/citywide-jupyterlab
 DOCKER := $(if $(DOCKER),$(DOCKER),docker)
 
 buildlog.txt: Dockerfile
@@ -9,11 +10,16 @@ buildlog.txt: Dockerfile
 
 build: buildlog.txt
 
-publish: buildlog.txt
+ecr: buildlog.txt
 	$(eval $@_TAG := $(shell cat $< | grep "Successfully built" | awk '{ print $$3 }'))
-	$(DOCKER) tag $($@_TAG) ${DOCKER_REPO}:$($@_TAG)
+	$(DOCKER) tag $($@_TAG) ${ECR_REPO}:$($@_TAG)
 	$$(aws ecr get-login --no-include-email --region $(AWS_REGION))
-	$(DOCKER) push ${DOCKER_REPO}:$($@_TAG)
+	$(DOCKER) push ${ECR_REPO}:$($@_TAG)
+
+gcr: buildlog.txt
+	$(eval $@_TAG := $(shell cat $< | grep "Successfully built" | awk '{ print $$3 }'))
+	$(DOCKER) tag $($@_TAG) ${GCR_REPO}:$($@_TAG)
+	$(DOCKER) push ${GCR_REPO}:$($@_TAG)
 
 clean:
 	rm -f buildlog.txt
