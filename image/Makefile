@@ -16,8 +16,8 @@ publish: buildlog.txt
 	$(DOCKER) push ${DOCKER_REPO}:$($@_TAG)
 
 clean:
-	rm buildlog.txt
+	rm -f buildlog.txt
 
-test: 
-	$(DOCKER) build . 
-	$(DOCKER) run -it latest
+test: buildlog.txt
+	$(eval $@_TAG := $(shell cat $< | grep "Successfully built" | awk '{ print $$3 }'))
+	$(DOCKER) run -p 8888:8888 -it $($@_TAG)

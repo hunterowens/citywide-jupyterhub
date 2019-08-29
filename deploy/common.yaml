@@ -6,7 +6,7 @@ singleuser:
 hub:
   extraConfig:
     jupyterlab: |
-      c.Spawner.cmd = ["jupyter-labhub"]
+      c.Spawner.cmd = ['bash', '-l', '-c', 'exec jupyter-labhub "$@"', '--']
 
       async def add_auth_env(spawner):
         """
