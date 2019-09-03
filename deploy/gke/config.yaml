@@ -5,6 +5,6 @@ singleuser:
 proxy:
   https:
     hosts:
-      - gcptestlb.itacloudops.org
+      - gcpjhub.itacloudops.org
     letsencrypt:
       contactEmail: ian.rose@lacity.org
