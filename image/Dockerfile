@@ -110,10 +110,18 @@ RUN pip install \
   vega-datasets \
   xlsxwriter
 
+# PgAdmin
+RUN pip install https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v4.12/pip/pgadmin4-4.12-py2.py3-none-any.whl
+RUN pip install gunicorn
+COPY pgadmin_config.py ${CONDA_DIR}/lib/python3.7/site-packages/pgadmin4/config_local.py
+COPY setup_pgadmin.sh /setup_pgadmin.sh
+RUN /setup_pgadmin.sh
+
 # Jupyter/IPython config
 USER root
 RUN mkdir -p /etc/ipython
 COPY ipython_config.py /etc/ipython/
+COPY jupyter_notebook_config.py ${CONDA_DIR}/etc/jupyter/
 USER $NB_UID
 
 # Environment-related
