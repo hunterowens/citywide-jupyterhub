@@ -1,3 +1,6 @@
+import os
+
+conda_dir = os.environ['CONDA_DIR']
 c.ServerProxy.servers = {
     'pgadmin': {
         'command': [
@@ -7,7 +10,7 @@ c.ServerProxy.servers = {
             '-e',
             'SCRIPT_NAME={base_url}pgadmin/',
             '--chdir',
-            '/opt/conda/lib/python3.7/site-packages/pgadmin4/',
+            f'{conda_dir}/lib/python3.7/site-packages/pgadmin4/',
             'pgadmin4.pgAdmin4:app',
         ],
         'absolute_url': True,
