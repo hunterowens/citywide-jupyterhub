@@ -111,7 +111,24 @@ const extension: JupyterFrontEndPlugin<void> = {
       category: 'Other'
     });
     palette.addItem({ command, category: 'RStudio' });
-  },
+
+    // Add a command to launch pgAdmin
+    command = 'cityoflosangeles:launch-pgadmin';
+    commands.addCommand(command, {
+      label: args => args['isLauncher'] ? 'pgAdmin' : 'Launch pgAdmin',
+      iconClass: args => args['isLauncher'] ? 'cola-PostgreSQL-icon': '',
+      execute: () => {
+        const url = URLExt.join(paths.urls.base, 'pgadmin/browser/#');
+        window.open(url, '_blank');
+      }
+    });
+    launcher.add({
+      command,
+      args: { isLauncher: true },
+      category: 'Other'
+    });
+    palette.addItem({ command, category: 'pgAdmin' });
+  }
 };
 
 export default extension;
