@@ -78,11 +78,24 @@ const extension: JupyterFrontEndPlugin<void> = {
     let command = 'cityoflosangeles:welcome';
     commands.addCommand(command, {
       label: 'Open Los Angeles Welcome Page',
-      execute: () => {
+      execute: args => {
         if (!widget || widget.isDisposed) {
           widget = createWelcomeWidget();
         }
         shell.add(widget, 'main');
+
+        // Possibly empty 'welcome' from the query string.
+        const path = args['path'] as string || '';
+        const search = args['search'] as string || '';
+        const hash = args['hash'] as string || '';
+        const query = URLExt.queryStringToObject(search);
+        const welcome = 'welcome' in query;
+        if (!welcome) {
+          return;
+        }
+        delete query['welcome'];
+        const url = path + URLExt.objectToQueryString(query) + hash;
+        router.navigate(url);
       },
     });
 
