@@ -78,11 +78,24 @@ const extension: JupyterFrontEndPlugin<void> = {
     let command = 'cityoflosangeles:welcome';
     commands.addCommand(command, {
       label: 'Open Los Angeles Welcome Page',
-      execute: () => {
+      execute: args => {
         if (!widget || widget.isDisposed) {
           widget = createWelcomeWidget();
         }
         shell.add(widget, 'main');
+
+        // Possibly empty 'welcome' from the query string.
+        const path = args['path'] as string || '';
+        const search = args['search'] as string || '';
+        const hash = args['hash'] as string || '';
+        const query = URLExt.queryStringToObject(search);
+        const welcome = 'welcome' in query;
+        if (!welcome) {
+          return;
+        }
+        delete query['welcome'];
+        const url = path + URLExt.objectToQueryString(query) + hash;
+        router.navigate(url);
       },
     });
 
@@ -111,7 +124,24 @@ const extension: JupyterFrontEndPlugin<void> = {
       category: 'Other'
     });
     palette.addItem({ command, category: 'RStudio' });
-  },
+
+    // Add a command to launch pgAdmin
+    command = 'cityoflosangeles:launch-pgadmin';
+    commands.addCommand(command, {
+      label: args => args['isLauncher'] ? 'pgAdmin' : 'Launch pgAdmin',
+      iconClass: args => args['isLauncher'] ? 'cola-PostgreSQL-icon': '',
+      execute: () => {
+        const url = URLExt.join(paths.urls.base, 'pgadmin/browser/#');
+        window.open(url, '_blank');
+      }
+    });
+    launcher.add({
+      command,
+      args: { isLauncher: true },
+      category: 'Other'
+    });
+    palette.addItem({ command, category: 'pgAdmin' });
+  }
 };
 
 export default extension;

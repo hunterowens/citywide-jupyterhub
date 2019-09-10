@@ -14,9 +14,12 @@ RUN apt-get update && \
 ENV PATH=$PATH:/usr/lib/rstudio-server/bin
 USER $NB_UID
 
-# env tar for r urbanmapper / github install r packages 
-
-ENV TAR="/bin/tar"
+# PgAdmin
+RUN pip install https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v4.12/pip/pgadmin4-4.12-py2.py3-none-any.whl
+RUN pip install gunicorn
+COPY pgadmin_config.py ${CONDA_DIR}/lib/python3.7/site-packages/pgadmin4/config_local.py
+COPY setup_pgadmin.sh /setup_pgadmin.sh
+RUN /setup_pgadmin.sh
 
 # Install conda dependencies early, as it takes a long time.
 RUN conda install -c conda-forge \
@@ -48,6 +51,8 @@ RUN conda install -c conda-forge \
   xlrd
 
 # Install some stuff from CRAN + Github that is not available on conda-forge.
+# env tar for r urbanmapper / github install r packages
+ENV TAR="/bin/tar"
 RUN R -e "install.packages(c('tidycensus', 'devtools'), dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
 RUN R -e "devtools::install_github('UrbanInstitute/urbnmapr')"
 
@@ -114,6 +119,7 @@ RUN pip install \
 USER root
 RUN mkdir -p /etc/ipython
 COPY ipython_config.py /etc/ipython/
+COPY jupyter_notebook_config.py ${CONDA_DIR}/etc/jupyter/
 USER $NB_UID
 
 # Environment-related
