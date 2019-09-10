@@ -115,7 +115,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       iconClass: args => args['isLauncher'] ? 'cola-RStudio-icon': '',
       execute: () => {
         const url = URLExt.join(paths.urls.base, 'rstudio');
-        window.open(url, '_blank');
+        window.open(url, '_blank', 'noopener');
       }
     });
     launcher.add({
@@ -132,7 +132,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       iconClass: args => args['isLauncher'] ? 'cola-PostgreSQL-icon': '',
       execute: () => {
         const url = URLExt.join(paths.urls.base, 'pgadmin/browser/#');
-        window.open(url, '_blank');
+        window.open(url, '_blank', 'noopener');
       }
     });
     launcher.add({
