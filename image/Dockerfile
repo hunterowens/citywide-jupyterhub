@@ -42,6 +42,7 @@ RUN conda install -c conda-forge \
   s3fs \
   scikit-learn \
   scipy \
+  selenium \
   spacy \
   statsmodels \
   tensorflow \
