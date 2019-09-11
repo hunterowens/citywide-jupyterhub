@@ -1,7 +1,7 @@
 singleuser:
   image:
     name: gcr.io/ita-kubernetes-poc/citywide-jupyterlab
-    tag: 3d2192bef35e
+    tag: 5ee6559c57ad
 proxy:
   https:
     hosts:

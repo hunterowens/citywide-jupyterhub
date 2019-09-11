@@ -14,7 +14,7 @@ build: buildlog.txt
 ecr: buildlog.txt 
 	$(eval $@_TAG := $(shell cat $< | grep "Successfully built" | tail -n 1 | awk '{ print $$3 }'))
 	$(DOCKER) tag $($@_TAG) ${ECR_REPO}:$($@_TAG)
-	$$(aws ecr get-login --no-include-email --region $(AWS_REGION) --profile $AWS_PROFILE)
+	$$(aws ecr get-login --no-include-email --region $(AWS_REGION) --profile $(AWS_PROFILE))
 	$(DOCKER) push ${ECR_REPO}:$($@_TAG)
 
 gcr: buildlog.txt
