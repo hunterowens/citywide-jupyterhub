@@ -12,10 +12,17 @@ RUN apt-get update && \
     rm /tmp/rstudio.deb && \
     apt-get clean
 ENV PATH=$PATH:/usr/lib/rstudio-server/bin
-USER $NB_UID
+
+# Oracle 
+WORKDIR /tmp
+RUN wget -q https://github.com/brmzkw/cx_oracle/releases/download/oracle-instantclient12.1/oracle-instantclient12.1-basic_12.1.0.2.0-2_amd64.deb
+RUN wget -q https://github.com/brmzkw/cx_oracle/releases/download/oracle-instantclient12.1/oracle-instantclient12.1-devel_12.1.0.2.0-2_amd64.deb
+RUN wget -q https://github.com/brmzkw/cx_oracle/releases/download/oracle-instantclient12.1/oracle-instantclient12.1-sqlplus_12.1.0.2.0-2_amd64.deb
+RUN dpkg -i /tmp/*.deb
+RUN rm -rf /tmp/*.deb
 
 # env tar for r urbanmapper / github install r packages 
-
+USER $NB_UID
 ENV TAR="/bin/tar"
 
 # Install conda dependencies early, as it takes a long time.
@@ -91,6 +98,7 @@ RUN jupyter lab build --dev-build=False && jupyter lab clean
 RUN pip install \
   altair \
   cookiecutter \ 
+  cx_oracle \
   descartes \
   folium \
   geoalchemy2 \

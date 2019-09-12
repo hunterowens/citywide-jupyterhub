@@ -2,7 +2,7 @@
 
 AWS_PROFILE=default
 ECR_REPO=525978535215.dkr.ecr.us-west-1.amazonaws.com/citywide-jupyterlab
-AWS_REGION=us-west-1
+AWS_REGION=us-west-2
 GCR_REPO=gcr.io/ita-kubernetes-poc/citywide-jupyterlab
 DOCKER := $(if $(DOCKER),$(DOCKER),docker)
 
@@ -26,5 +26,5 @@ clean:
 	rm -f buildlog.txt
 
 test: buildlog.txt
-	$(eval $@_TAG := $(shell cat $< | grep "Successfully built" | awk '{ print $$3 }'))
+	$(eval $@_TAG := $(shell cat $< | tail -n 1 | grep "Successfully built" | awk '{ print $$3 }'))
 	$(DOCKER) run -p 8888:8888 -it $($@_TAG)
