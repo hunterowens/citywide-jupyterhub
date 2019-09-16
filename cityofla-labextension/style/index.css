@@ -5,6 +5,13 @@
   background-position: center;
 }
 
+.cola-Shiny-icon {
+  background-image: url(shiny.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+
 .cola-PostgreSQL-icon {
   background-image: url(postgres.svg);
   background-repeat: no-repeat;

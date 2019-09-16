@@ -71,7 +71,7 @@ RUN pip install awscli --ignore-installed
 
 # Rebuilding lab also takes a long time.
 RUN pip install jupyterlab==1.1.3
-RUN jupyter labextension install --no-build cityofla-labextension@0.4.6
+RUN jupyter labextension install --no-build cityofla-labextension@0.5.0
 RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
 RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
 RUN jupyter labextension install --no-build @jupyterlab/git@0.7
