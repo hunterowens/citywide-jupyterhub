@@ -2,7 +2,7 @@ FROM jupyter/datascience-notebook:7a3e968dd212
 
 USER root
 # Having a CLI text editor is nice.
-RUN apt-get update && apt-get install -y vim graphviz openssh-client
+RUN apt-get update && apt-get install -y vim graphviz openssh-client gdebi-core
 
 # Rstudio integration
 RUN apt-get update && \
@@ -24,12 +24,12 @@ RUN /setup_pgadmin.sh
 # Install conda dependencies early, as it takes a long time.
 RUN conda install -c conda-forge \
   cartopy \
-  "dask=2.1.0" \
+  dask \
   distributed \
   "gdal=2.4.1" \
   geopandas \
   "ibis-framework>=1.2.0" \
-  "intake=0.5.1" \
+  "intake=0.5.3" \
   intake-parquet \
   matplotlib \
   nltk \
@@ -38,9 +38,12 @@ RUN conda install -c conda-forge \
   opencv \
   osmnx \
   pymc3 \
+  python-graphviz \
   r-catools \
+  r-leaflet \
   r-rgdal \
   r-rmysql \
+  r-shinydashboard \
   r-units \
   s3fs \
   scikit-learn \
@@ -49,6 +52,13 @@ RUN conda install -c conda-forge \
   statsmodels \
   tensorflow \
   xlrd
+
+# R shiny-server needs to be installed after the R package
+USER root
+RUN wget https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-1.5.9.923-amd64.deb -O /tmp/shiny.deb
+RUN gdebi -n /tmp/shiny.deb && fix-permissions /var/log/shiny-server /var/lib/shiny-server
+RUN rm /tmp/shiny.deb
+USER $NB_UID
 
 # Install some stuff from CRAN + Github that is not available on conda-forge.
 # env tar for r urbanmapper / github install r packages
