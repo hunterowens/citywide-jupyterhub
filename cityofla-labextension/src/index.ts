@@ -125,6 +125,23 @@ const extension: JupyterFrontEndPlugin<void> = {
     });
     palette.addItem({ command, category: 'RStudio' });
 
+    // Add a command to launch RStudio
+    command = 'cityoflosangeles:launch-shiny';
+    commands.addCommand(command, {
+      label: args => args['isLauncher'] ? 'Shiny' : 'Launch Shiny',
+      iconClass: args => args['isLauncher'] ? 'cola-Shiny-icon': '',
+      execute: () => {
+        const url = URLExt.join(paths.urls.base, 'shiny');
+        window.open(url, '_blank', 'noopener');
+      }
+    });
+    launcher.add({
+      command,
+      args: { isLauncher: true },
+      category: 'Other'
+    });
+    palette.addItem({ command, category: 'RStudio' });
+
     // Add a command to launch pgAdmin
     command = 'cityoflosangeles:launch-pgadmin';
     commands.addCommand(command, {

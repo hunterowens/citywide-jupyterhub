@@ -1,6 +1,6 @@
 {
   "name": "cityofla-labextension",
-  "version": "0.4.6",
+  "version": "0.5.0",
   "description": "A JupyterLab extension for City of Los Angeles customizations",
   "keywords": [
     "jupyter",
