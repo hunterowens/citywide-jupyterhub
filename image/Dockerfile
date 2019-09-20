@@ -2,7 +2,7 @@ FROM jupyter/datascience-notebook:7a3e968dd212
 
 USER root
 # Having a CLI text editor is nice.
-RUN apt-get update && apt-get install -y vim graphviz openssh-client gdebi-core
+RUN apt-get update && apt-get install -y vim graphviz openssh-client gdebi-core bash-completion
 
 # Rstudio integration
 RUN apt-get update && \
