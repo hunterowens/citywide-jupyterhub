@@ -28,8 +28,7 @@ RUN conda install -c conda-forge \
   distributed \
   "gdal=2.4.1" \
   geopandas \
-  "ibis-framework>=1.2.0" \
-  "intake=0.5.3" \
+  intake \
   intake-parquet \
   matplotlib \
   nltk \
@@ -42,8 +41,10 @@ RUN conda install -c conda-forge \
   r-catools \
   r-leaflet \
   r-rgdal \
+  r-rjdbc \
   r-rmysql \
   r-shinydashboard \
+  r-tidytext \
   r-units \
   s3fs \
   scikit-learn \
@@ -63,7 +64,7 @@ USER $NB_UID
 # Install some stuff from CRAN + Github that is not available on conda-forge.
 # env tar for r urbanmapper / github install r packages
 ENV TAR="/bin/tar"
-RUN R -e "install.packages(c('tidycensus', 'devtools'), dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
+RUN R -e "install.packages(c('census', 'tidycensus', 'devtools'), dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
 RUN R -e "devtools::install_github('UrbanInstitute/urbnmapr')"
 
 # AWS CLI is a pain, as it pins an old version of pyyaml
@@ -105,14 +106,17 @@ RUN jupyter lab build --dev-build=False && jupyter lab clean
 # Install some python-only packages using pip
 RUN pip install \
   altair \
+  census-data-downloader \
+  contextily==1.0rc2 \
   cookiecutter \ 
   descartes \
   folium \
   geoalchemy2 \
   geocoder \
   geopy \
+  git+https://github.com/ibis-project/ibis.git@master \
   intake_geopandas>=0.2.2 \
-  intake_dcat>=0.2.3 \
+  intake_dcat>=0.3.1 \
   git+https://github.com/intake/intake-sql.git@master#egg=intake_sql \
   ipyleaflet \
   mapboxgl \
@@ -121,6 +125,7 @@ RUN pip install \
   plotly>=4.0 \
   plotly-geo>=1.0 \
   psycopg2 \
+  selenium \
   usaddress \
   vega-datasets \
   xlsxwriter
