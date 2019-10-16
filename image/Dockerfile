@@ -114,7 +114,7 @@ RUN pip install \
   geoalchemy2 \
   geocoder \
   geopy \
-  git+https://github.com/ibis-project/ibis.git@master \
+  git+https://github.com/ibis-project/ibis.git@46d18af \
   intake_geopandas>=0.2.2 \
   intake_dcat>=0.3.1 \
   git+https://github.com/intake/intake-sql.git@master#egg=intake_sql \
