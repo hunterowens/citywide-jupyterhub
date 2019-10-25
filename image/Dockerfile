@@ -124,6 +124,7 @@ RUN pip install \
   mapboxgl \
   openpyxl \
   papermill \
+  partridge \
   plotly>=4.0 \
   plotly-geo>=1.0 \
   psycopg2 \
