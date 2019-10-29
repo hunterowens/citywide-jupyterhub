@@ -72,19 +72,20 @@ RUN pip install awscli --ignore-installed
 
 # Rebuilding lab also takes a long time.
 RUN pip install jupyterlab==1.1.3
-RUN jupyter labextension install --no-build cityofla-labextension@0.5.0
 RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
 RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
 RUN jupyter labextension install --no-build @jupyterlab/git@0.7
 RUN jupyter labextension install --no-build @jupyterlab/github@1.0.1
 RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
+RUN jupyter labextension install --no-build arcgis-map-ipywidget@1.6.2-post1
+RUN jupyter labextension install --no-build cityofla-labextension@0.5.0
 RUN jupyter labextension install --no-build dask-labextension@1.0
 RUN jupyter labextension install --no-build jupyter-leaflet@0.11
-RUN jupyter labextension install --no-build plotlywidget@1.0
 RUN jupyter labextension install --no-build jupyterlab-plotly@1.0
 RUN jupyter labextension install --no-build jupyterlab-dash@0.1.0-alpha.3
-RUN jupyter labextension install --no-build jupyterlab-spreadsheet@0.1
+RUN jupyter labextension install --no-build jupyterlab-spreadsheet@0.2
 RUN jupyter labextension install --no-build nbdime-jupyterlab@1.0
+RUN jupyter labextension install --no-build plotlywidget@1.0
 
 # jupyterlab-sql installs a labextension behind the scenes.
 RUN pip install \
@@ -106,6 +107,7 @@ RUN jupyter lab build --dev-build=False && jupyter lab clean
 # Install some python-only packages using pip
 RUN pip install \
   altair \
+  arcgis==1.6.2.post1 \
   census-data-downloader \
   contextily==1.0rc2 \
   cookiecutter \ 
@@ -122,10 +124,12 @@ RUN pip install \
   mapboxgl \
   openpyxl \
   papermill \
+  partridge \
   plotly>=4.0 \
   plotly-geo>=1.0 \
   psycopg2 \
   selenium \
+  sodapy \
   usaddress \
   vega-datasets \
   xlsxwriter
