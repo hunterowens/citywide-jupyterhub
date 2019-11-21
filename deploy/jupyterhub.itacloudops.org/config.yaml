@@ -1,7 +1,7 @@
 singleuser:
   image:
     name: 525978535215.dkr.ecr.us-west-1.amazonaws.com/citywide-jupyterlab
-    tag: a2317f41dab7
+    tag: b649e350f0c9
 proxy:
   https:
     hosts:

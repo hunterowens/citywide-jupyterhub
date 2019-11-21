@@ -116,10 +116,10 @@ RUN pip install \
   geoalchemy2 \
   geocoder \
   geopy \
-  git+https://github.com/ibis-project/ibis.git@46d18af \
-  intake_geopandas>=0.2.2 \
+  git+https://github.com/ibis-project/ibis.git@2157354 \
+  git+https://github.com/intake/intake_geopandas.git@4332e03#egg=intake_geopandas \
   intake_dcat>=0.3.1 \
-  git+https://github.com/intake/intake-sql.git@master#egg=intake_sql \
+  git+https://github.com/intake/intake-sql.git@2834e26#egg=intake_sql \
   ipyleaflet \
   mapboxgl \
   openpyxl \
