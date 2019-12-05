@@ -64,7 +64,7 @@ USER $NB_UID
 # Install some stuff from CRAN + Github that is not available on conda-forge.
 # env tar for r urbanmapper / github install r packages
 ENV TAR="/bin/tar"
-RUN R -e "install.packages(c('census', 'tidycensus', 'devtools'), dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
+RUN R -e "install.packages(c('census', 'tidycensus', 'devtools', 'RPostgres'), dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
 RUN R -e "devtools::install_github('UrbanInstitute/urbnmapr')"
 
 # AWS CLI is a pain, as it pins an old version of pyyaml
