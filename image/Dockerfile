@@ -1,4 +1,4 @@
-FROM jupyter/datascience-notebook:7a0c7325e470
+FROM jupyter/datascience-notebook:7a3e968dd212
 
 USER root
 # Having a CLI text editor is nice.
@@ -24,7 +24,7 @@ RUN /setup_pgadmin.sh
 # Install conda dependencies early, as it takes a long time.
 RUN conda install -c conda-forge \
   cartopy \
-  dask>=2.9 \
+  "dask>=2.8" \
   distributed \
   "gdal=2.4.1" \
   geopandas \
@@ -36,7 +36,7 @@ RUN conda install -c conda-forge \
   numpy \
   opencv \
   osmnx \
-  pandas>0.25 \
+  "pandas>=0.25" \
   pymc3 \
   python-graphviz \
   r-catools \
@@ -113,6 +113,7 @@ RUN jupyter lab build --dev-build=False && jupyter lab clean
 RUN pip install \
   altair \
   arcgis==1.7.0 \
+  black \
   bqplot \
   census-data-downloader \
   CensusData \
@@ -128,8 +129,10 @@ RUN pip install \
   intake_dcat>=0.4.0 \
   git+https://github.com/intake/intake-sql.git@2834e26#egg=intake_sql \
   ipyleaflet==0.11.6 \
+  isort \
   kmodes \
   mapboxgl \
+  mypy \
   openpyxl \
   papermill \
   partridge \
