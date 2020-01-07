@@ -42,6 +42,7 @@ RUN conda install -c conda-forge \
   r-catools \
   r-leaflet \
   r-rgdal \
+  r-rpostgres \
   r-rjdbc \
   r-rmysql \
   r-shinydashboard \
@@ -127,6 +128,7 @@ RUN pip install \
   intake_dcat>=0.4.0 \
   git+https://github.com/intake/intake-sql.git@2834e26#egg=intake_sql \
   ipyleaflet==0.11.6 \
+  kmodes \
   mapboxgl \
   openpyxl \
   papermill \
