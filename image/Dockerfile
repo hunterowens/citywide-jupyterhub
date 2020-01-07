@@ -81,7 +81,7 @@ RUN jupyter labextension install --no-build @jupyterlab/git@0.7
 RUN jupyter labextension install --no-build @jupyterlab/github@1.0.1
 RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
 RUN jupyter labextension install --no-build bqplot
-RUN jupyter labextension install --no-build arcgis-map-ipywidget@0.7.0
+RUN jupyter labextension install --no-build arcgis-map-ipywidget@1.7.0
 RUN jupyter labextension install --no-build cityofla-labextension@0.5.0
 RUN jupyter labextension install --no-build dask-labextension@1.0
 RUN jupyter labextension install --no-build jupyter-leaflet@0.11.6
