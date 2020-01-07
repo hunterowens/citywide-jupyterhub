@@ -1,4 +1,4 @@
-FROM jupyter/datascience-notebook:7a3e968dd212
+FROM jupyter/datascience-notebook:7a0c7325e470
 
 USER root
 # Having a CLI text editor is nice.
@@ -24,7 +24,7 @@ RUN /setup_pgadmin.sh
 # Install conda dependencies early, as it takes a long time.
 RUN conda install -c conda-forge \
   cartopy \
-  dask \
+  dask>=2.9 \
   distributed \
   "gdal=2.4.1" \
   geopandas \
@@ -36,6 +36,7 @@ RUN conda install -c conda-forge \
   numpy \
   opencv \
   osmnx \
+  pandas>0.25 \
   pymc3 \
   python-graphviz \
   r-catools \
@@ -71,7 +72,7 @@ RUN R -e "devtools::install_github('UrbanInstitute/urbnmapr')"
 RUN pip install awscli --ignore-installed
 
 # Rebuilding lab also takes a long time.
-RUN pip install jupyterlab==1.1.3
+RUN pip install jupyterlab==1.2.4
 RUN jupyter labextension install --no-build @jupyter-voila/jupyterlab-preview@0.1.3
 RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
 RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
@@ -79,10 +80,10 @@ RUN jupyter labextension install --no-build @jupyterlab/git@0.7
 RUN jupyter labextension install --no-build @jupyterlab/github@1.0.1
 RUN jupyter labextension install --no-build @jupyterlab/toc@1.0
 RUN jupyter labextension install --no-build bqplot
-RUN jupyter labextension install --no-build arcgis-map-ipywidget@1.6.2-post1
+RUN jupyter labextension install --no-build arcgis-map-ipywidget@0.7.0
 RUN jupyter labextension install --no-build cityofla-labextension@0.5.0
 RUN jupyter labextension install --no-build dask-labextension@1.0
-RUN jupyter labextension install --no-build jupyter-leaflet@0.11
+RUN jupyter labextension install --no-build jupyter-leaflet@0.11.6
 RUN jupyter labextension install --no-build jupyterlab-plotly@1.0
 RUN jupyter labextension install --no-build jupyterlab-dash@0.1.0-alpha.3
 RUN jupyter labextension install --no-build jupyterlab-spreadsheet@0.2
@@ -98,7 +99,7 @@ RUN pip install \
   jupyterlab_github>=1.0 \
   jupyterlab_sql>=0.3 \
   nbdime \
-  voila
+  voila==0.1.20
 
 # Enable the serverextensions that do not use the conf.d approach
 RUN jupyter serverextension enable --sys-prefix jupyterlab_sql
@@ -110,7 +111,7 @@ RUN jupyter lab build --dev-build=False && jupyter lab clean
 # Install some python-only packages using pip
 RUN pip install \
   altair \
-  arcgis==1.6.2.post1 \
+  arcgis==1.7.0 \
   bqplot \
   census-data-downloader \
   CensusData \
@@ -122,16 +123,17 @@ RUN pip install \
   geocoder \
   geopy \
   git+https://github.com/ibis-project/ibis.git@2157354 \
-  git+https://github.com/intake/intake_geopandas.git@4332e03#egg=intake_geopandas \
+  intake_geopandas==0.2.3 \
   intake_dcat>=0.4.0 \
   git+https://github.com/intake/intake-sql.git@2834e26#egg=intake_sql \
-  ipyleaflet \
+  ipyleaflet==0.11.6 \
   mapboxgl \
   openpyxl \
   papermill \
   partridge \
   plotly>=4.0 \
   plotly-geo>=1.0 \
+  polyline \
   psycopg2 \
   selenium \
   sodapy \
@@ -153,5 +155,5 @@ RUN cat /tmp/custom.sh >> /etc/bash.bashrc
 USER $NB_UID
 
 # Use bash login shell for entrypoint in order
-# to automatically source user's .bashrc
+# to automatically source user's .bash_profile
 CMD ["bash", "-l", "-c", "'start-notebook.sh'"]
