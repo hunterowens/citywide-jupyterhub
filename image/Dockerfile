@@ -132,6 +132,7 @@ RUN pip install \
   isort \
   kmodes \
   mapboxgl \
+  markov_clustering \
   mypy \
   openpyxl \
   papermill \
