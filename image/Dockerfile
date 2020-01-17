@@ -104,7 +104,8 @@ RUN pip install \
   psycopg2 \
   usaddress \
   vega-datasets \
-  xlsxwriter
+  xlsxwriter \
+  flake8
 
 # Environment-related
 USER root
