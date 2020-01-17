@@ -120,6 +120,7 @@ RUN pip install \
   contextily==1.0rc2 \
   cookiecutter \ 
   descartes \
+  flake8 \
   folium \
   geoalchemy2 \
   geocoder \
