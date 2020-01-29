@@ -84,7 +84,7 @@ RUN jupyter labextension install --no-build bqplot
 RUN jupyter labextension install --no-build arcgis-map-ipywidget@1.7.0
 RUN jupyter labextension install --no-build cityofla-labextension@0.5.0
 RUN jupyter labextension install --no-build dask-labextension@1.0
-RUN jupyter labextension install --no-build jupyter-leaflet@0.11.6
+RUN jupyter labextension install --no-build jupyter-leaflet@0.11.7
 RUN jupyter labextension install --no-build jupyterlab-plotly@1.0
 RUN jupyter labextension install --no-build jupyterlab-dash@0.1.0-alpha.3
 RUN jupyter labextension install --no-build jupyterlab-spreadsheet@0.2
@@ -128,8 +128,8 @@ RUN pip install \
   git+https://github.com/ibis-project/ibis.git@2157354 \
   intake_geopandas==0.2.3 \
   intake_dcat>=0.4.0 \
-  git+https://github.com/intake/intake-sql.git@2834e26#egg=intake_sql \
-  ipyleaflet==0.11.6 \
+  git+https://github.com/intake/intake-sql.git@7709beb#egg=intake_sql \
+  ipyleaflet==0.11.7 \
   isort \
   kmodes \
   mapboxgl \
