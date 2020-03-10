@@ -2,7 +2,7 @@ FROM jupyter/datascience-notebook:7a3e968dd212
 
 USER root
 # Having a CLI text editor is nice.
-RUN apt-get update && apt-get install -y vim graphviz openssh-client gdebi-core bash-completion
+RUN apt-get update && apt-get install -y vim graphviz openssh-client gdebi-core bash-completion libaio1
 
 # Rstudio integration
 RUN apt-get update && \
@@ -40,14 +40,17 @@ RUN conda install -c conda-forge \
   pymc3 \
   python-graphviz \
   r-catools \
+  r-devtools \
   r-leaflet \
   r-rgdal \
   r-rpostgres \
   r-rjdbc \
   r-rmysql \
+  r-rpostgres \
   r-shinydashboard \
   r-tidytext \
   r-units \
+  r-usethis \
   s3fs \
   scikit-learn \
   scipy \
@@ -63,17 +66,25 @@ RUN gdebi -n /tmp/shiny.deb && fix-permissions /var/log/shiny-server /var/lib/sh
 RUN rm /tmp/shiny.deb
 USER $NB_UID
 
+# Install Oracle Instant Client drivers.
+USER root
+RUN wget https://download.oracle.com/otn_software/linux/instantclient/19600/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip -O instant_client.zip
+RUN unzip instant_client.zip && mkdir -p /opt/oracle && mv instantclient_19_6 /opt/oracle/
+RUN echo /opt/oracle/instantclient_19_6 > /etc/ld.so.conf.d/oracle-instantclient.conf && ldconfig
+RUN rm instant_client.zip
+USER $NB_UID
+
 # Install some stuff from CRAN + Github that is not available on conda-forge.
 # env tar for r urbanmapper / github install r packages
 ENV TAR="/bin/tar"
-RUN R -e "install.packages(c('census', 'tidycensus', 'devtools', 'RPostgres'), dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
+RUN R -e "install.packages(c('tidycensus'), dependencies=TRUE, repos = 'http://cran.us.r-project.org')"
 RUN R -e "devtools::install_github('UrbanInstitute/urbnmapr')"
 
 # AWS CLI is a pain, as it pins an old version of pyyaml
 RUN pip install awscli --ignore-installed
 
 # Rebuilding lab also takes a long time.
-RUN pip install jupyterlab==1.2.4
+RUN pip install jupyterlab==1.2.6
 RUN jupyter labextension install --no-build @jupyter-voila/jupyterlab-preview@0.1.3
 RUN jupyter labextension install --no-build @jupyter-widgets/jupyterlab-manager@1.0
 RUN jupyter labextension install --no-build @jupyterlab/geojson-extension@1.0
@@ -85,11 +96,11 @@ RUN jupyter labextension install --no-build arcgis-map-ipywidget@1.7.0
 RUN jupyter labextension install --no-build cityofla-labextension@0.5.0
 RUN jupyter labextension install --no-build dask-labextension@1.0
 RUN jupyter labextension install --no-build jupyter-leaflet@0.11.7
-RUN jupyter labextension install --no-build jupyterlab-plotly@1.0
+RUN jupyter labextension install --no-build jupyterlab-plotly@1.5.2
 RUN jupyter labextension install --no-build jupyterlab-dash@0.1.0-alpha.3
 RUN jupyter labextension install --no-build jupyterlab-spreadsheet@0.2
 RUN jupyter labextension install --no-build nbdime-jupyterlab@1.0
-RUN jupyter labextension install --no-build plotlywidget@1.0
+RUN jupyter labextension install --no-build plotlywidget@1.5.2
 
 # jupyterlab-sql installs a labextension behind the scenes.
 RUN pip install \
@@ -107,7 +118,7 @@ RUN jupyter serverextension enable --sys-prefix jupyterlab_sql
 RUN jupyter serverextension enable --sys-prefix jupyterlab_git
 
 # Build JupyterLab.
-RUN jupyter lab build --dev-build=False && jupyter lab clean
+RUN jupyter lab build --dev-build=False --debug && jupyter lab clean
 
 # Install some python-only packages using pip
 RUN pip install \
@@ -119,17 +130,19 @@ RUN pip install \
   CensusData \
   contextily==1.0rc2 \
   cookiecutter \ 
+  cx_Oracle \
   descartes \
   flake8 \
   folium \
   geoalchemy2 \
   geocoder \
   geopy \
-  git+https://github.com/ibis-project/ibis.git@2157354 \
+  ibis-framework==1.3 \
   intake_geopandas==0.2.3 \
   intake_dcat>=0.4.0 \
   git+https://github.com/intake/intake-sql.git@7709beb#egg=intake_sql \
   ipyleaflet==0.11.7 \
+  ipywidgets==7.5.1 \
   isort \
   kmodes \
   mapboxgl \
